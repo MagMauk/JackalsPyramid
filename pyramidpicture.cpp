@@ -1,5 +1,6 @@
 #include "pyramidpicture.h"
 #include <QImageReader>
+#include <QMessageBox>
 
 PyramidPicture::PyramidPicture(const QString& name):
     m_name(name)
@@ -24,10 +25,17 @@ QImage PyramidPicture::getLayer(int k, double coef) const
         actualCoef *= coef;
 
 
-    int height = (int) ( (double) m_pic.height() / coef);
-    int width =  (int) ( (double)m_pic.width()   / coef);
+    int height = (int) ( (double) m_pic.height() / actualCoef);
+    int width =  (int) ( (double)m_pic.width()   / actualCoef);
 
     QImage output(width, height, m_pic.format());
+
+
+    {
+        QString s = "height = " + QString::number(height);
+        s += " width = " + QString::number(width);
+        QMessageBox::information(0, "Message", s);
+    }
 
 
     for(int x = 0; x < width; x++)
@@ -51,9 +59,19 @@ QColor PyramidPicture::findColor(int x, int y, double coef) const
     int yStart = (int) ( (double) y*coef);
     int yEnd   = (int) ( (double) (y + 1)*coef);
 
+    if ( (xEnd > m_width) || (yEnd > m_height) )
+    {
+        QString s = "XStart = " + QString::number(xStart);
+        s += " xEnd = " + QString::number(xEnd);
+        s += " yStart = " + QString::number(yStart);
+        s += " yEnd = " + QString::number(yEnd);
+        QMessageBox::information(0, "Message", s);
+        return QColor(r, g, b, a);
+    }
+
     int count = (xEnd - xStart) * (yEnd - yStart);
 
-    for (int i = xStart; i < xEnd; i++)
+    for (int i = xStart; i < xEnd; i++) {
         for (int j = yStart; j < yEnd; j++) {
             QColor color = m_pic.pixelColor(i, j);
             r += color.red();
@@ -61,6 +79,7 @@ QColor PyramidPicture::findColor(int x, int y, double coef) const
             b += color.blue();
             a += color.alpha();
         }
+    }
 
     r /= count;
     g /= count;

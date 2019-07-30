@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include "pyramidpicture.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,13 +17,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void sayIgor();
-
 public slots:
     void mySlot();
 
 private:
     Ui::MainWindow *ui;
+    QLabel m_label;
 };
 
 #endif // MAINWINDOW_H
