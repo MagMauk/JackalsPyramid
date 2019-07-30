@@ -1,32 +1,71 @@
 #include "pyramidpicture.h"
+#include <QImageReader>
 
-PyramidPicture::PyramidPicture()
+PyramidPicture::PyramidPicture(const QString& name):
+    m_name(name)
 {
+    QImageReader reader(m_name);
+
+    m_pic = reader.read();
+
+    m_height = m_pic.height();
+    m_width  = m_pic.width();
+    m_diag = m_height*m_height + m_width*m_width;
+}
+
+QImage PyramidPicture::getLayer(int k, double coef) const
+{
+    if (k == 0)
+        return m_pic;
+
+    double actualCoef = 1;
+
+    for (int i = 0; i < k; i++)
+        actualCoef *= coef;
+
+
+    int height = (int) ( (double) m_pic.height() / coef);
+    int width =  (int) ( (double)m_pic.width()   / coef);
+
+    QImage output(width, height, m_pic.format());
+
+
+    for(int x = 0; x < width; x++)
+            for(int y = 0; y < height; y++)
+                output.setPixelColor(x, y, findColor(x, y, actualCoef));
+
+    return output.scaled(m_pic.height(), m_pic.width());
 
 }
 
-QColor PyramidPicture::findColor(int k, int x, int y)
+
+QColor PyramidPicture::findColor(int x, int y, double coef) const
 {
-   int r = 0;
-   int g = 0;
-   int b = 0;
-   int a = 0;
+    int r = 0;
+    int g = 0;
+    int b = 0;
+    int a = 0;
 
-   int prevX = x * dim;
-   int prevY = y * dim;
+    int xStart = (int) ( (double) x*coef);
+    int xEnd   = (int) ( (double) (x + 1)*coef);
+    int yStart = (int) ( (double) y*coef);
+    int yEnd   = (int) ( (double) (y + 1)*coef);
 
-   for (int i = 0; i < dim; i++)
-       for (int j = 0; j < dim; j++) {
-           QColor color = m_pictures[k].pixelColor(prevX + i, prevY + j);
-           r += color.red();
-           g += color.green();
-           b += color.blue();
-           a += color.alpha();
-       }
+    int count = (xEnd - xStart) * (yEnd - yStart);
 
-   r /= dim*dim;
-   g /= dim*dim;
-   b /= dim*dim;
-   a /= dim*dim;
-   return QColor(r, g, b, a);
+    for (int i = xStart; i < xEnd; i++)
+        for (int j = yStart; j < yEnd; j++) {
+            QColor color = m_pic.pixelColor(i, j);
+            r += color.red();
+            g += color.green();
+            b += color.blue();
+            a += color.alpha();
+        }
+
+    r /= count;
+    g /= count;
+    b /= count;
+    a /= count;
+    return QColor(r, g, b, a);
 }
+

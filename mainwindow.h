@@ -17,6 +17,9 @@ public:
 
     void sayIgor();
 
+public slots:
+    void mySlot();
+
 private:
     Ui::MainWindow *ui;
 };
