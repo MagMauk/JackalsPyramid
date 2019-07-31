@@ -19,9 +19,11 @@ public:
     ~MainWindow();
 
 public slots:
-    void mySlot();
+    void loadFile();
 
     void printLayer();
+
+    void selectFile();
 
 private:
 

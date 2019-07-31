@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->scrollArea->setWidget(&m_label);
-    ui->layerBox->insertItem(3, "3");
-    ui->nameBox->clear();
 }
 
 MainWindow::~MainWindow()
@@ -18,7 +16,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::mySlot()
+void MainWindow::loadFile()
 {
     QFileDialog dialog(this);
         dialog.setNameFilter(tr("Images (*.png *.jpg)"));
@@ -50,6 +48,7 @@ void MainWindow::addFile(const QString& filename)
     }
     m_pictures.insert(filename, pic);
     ui->nameBox->insertItem(i, filename);
+    ui->nameBox->setCurrentIndex(i);
 }
 
 void MainWindow::printLayer()
@@ -69,8 +68,16 @@ void MainWindow::printLayer()
 
     m_label.setPixmap(QPixmap::fromImage(layer.m_LayerImage));
     ui->sizelabel->setText("Size: " + QString::number(layer.m_width) + "x" + QString::number(layer.m_height));
+}
 
-    updateLayersBox(pic);
+void MainWindow::selectFile()
+{
+    if (!m_pictures.count(ui->nameBox->currentText())) {
+        QMessageBox::information(0, "Error", "File '" + ui->nameBox->currentText() + "' not loaded");
+        return;
+    }
+    QMessageBox::information(0, "Error", "SelectFile");
+    updateLayersBox(m_pictures.find(ui->nameBox->currentText()).value());
 }
 
 void MainWindow::updateLayersBox(const PyramidPicture& pic)
@@ -79,4 +86,5 @@ void MainWindow::updateLayersBox(const PyramidPicture& pic)
     ui->layerBox->clear();
     for(int i = 0; i < countLayers; i++)
        ui->layerBox->insertItem(i, QString::number(i));
+    ui->layerBox->setCurrentIndex(0);
 }

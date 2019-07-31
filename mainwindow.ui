@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>684</width>
-    <height>655</height>
+    <width>633</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -168,7 +168,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>684</width>
+     <width>633</width>
      <height>21</height>
     </rect>
    </property>
@@ -202,7 +202,7 @@
    <sender>actionOpen</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>mySlot()</slot>
+   <slot>loadFile()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -216,7 +216,7 @@
   </connection>
   <connection>
    <sender>layerBox</sender>
-   <signal>activated(int)</signal>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>MainWindow</receiver>
    <slot>printLayer()</slot>
    <hints>
@@ -234,7 +234,7 @@
    <sender>coefBox</sender>
    <signal>valueChanged(double)</signal>
    <receiver>MainWindow</receiver>
-   <slot>printLayer()</slot>
+   <slot>selectFile()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>244</x>
@@ -250,21 +250,22 @@
    <sender>nameBox</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>printLayer()</slot>
+   <slot>selectFile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>244</x>
-     <y>80</y>
+     <x>221</x>
+     <y>81</y>
     </hint>
     <hint type="destinationlabel">
-     <x>341</x>
-     <y>327</y>
+     <x>14</x>
+     <y>154</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>mySlot()</slot>
+  <slot>loadFile()</slot>
   <slot>printLayer()</slot>
+  <slot>selectFile()</slot>
  </slots>
 </ui>
