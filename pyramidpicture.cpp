@@ -42,7 +42,7 @@ QImage PyramidPicture::getLayer(int k, double coef) const
             for(int y = 0; y < height; y++)
                 output.setPixelColor(x, y, findColor(x, y, actualCoef));
 
-    return output.scaled(m_pic.height(), m_pic.width());
+    return output.scaled(m_pic.width(), m_pic.height());
 
 }
 

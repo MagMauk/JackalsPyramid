@@ -17,6 +17,16 @@ public:
         return m_diag;
     }
 
+    int getHeight()
+    {
+        return m_height;
+    }
+
+    int getWidth()
+    {
+        return m_width;
+    }
+
 private:
     QColor findColor(int i, int x, int y) const;
 
