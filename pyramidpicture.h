@@ -12,6 +12,8 @@ public:
 
     QImage getLayer(int k, double coef = 2) const;
 
+    int getLayerCount(double coef = 2) const;
+
     int getDiagonal() const
     {
         return m_diag;

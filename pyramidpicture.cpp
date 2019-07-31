@@ -1,6 +1,7 @@
 #include "pyramidpicture.h"
 #include <QImageReader>
 #include <QMessageBox>
+#include <cmath>
 
 PyramidPicture::PyramidPicture(const QString& name):
     m_name(name)
@@ -25,8 +26,8 @@ QImage PyramidPicture::getLayer(int k, double coef) const
         actualCoef *= coef;
 
 
-    int height = (int) ( (double) m_pic.height() / actualCoef);
-    int width =  (int) ( (double)m_pic.width()   / actualCoef);
+    int height =  static_cast<int>( static_cast<double>(m_height) / actualCoef);
+    int width =   static_cast<int>( static_cast<double>(m_width)  / actualCoef);
 
     QImage output(width, height, m_pic.format());
 
@@ -34,8 +35,16 @@ QImage PyramidPicture::getLayer(int k, double coef) const
             for(int y = 0; y < height; y++)
                 output.setPixelColor(x, y, findColor(x, y, actualCoef));
 
-    return output.scaled(m_pic.width(), m_pic.height());
+    return output.scaled(m_width, m_height);
 
+}
+
+int PyramidPicture::getLayerCount(double coef) const
+{
+    double side = std::min(m_width, m_height);
+    double outputD = std::log(side)/std::log(coef);
+    int output = static_cast<int>(outputD) + 1;
+    return output;
 }
 
 
@@ -46,10 +55,10 @@ QColor PyramidPicture::findColor(int x, int y, double coef) const
     int b = 0;
     int a = 0;
 
-    int xStart = (int) ( (double) x*coef);
-    int xEnd   = (int) ( (double) (x + 1)*coef);
-    int yStart = (int) ( (double) y*coef);
-    int yEnd   = (int) ( (double) (y + 1)*coef);
+    int xStart = static_cast<int>( static_cast<double>(x)*coef);
+    int xEnd   = static_cast<int>( static_cast<double>(x + 1)*coef);
+    int yStart = static_cast<int>( static_cast<double>(y)*coef);
+    int yEnd   = static_cast<int>( static_cast<double>(y + 1)*coef);
 
     int count = (xEnd - xStart) * (yEnd - yStart);
 
