@@ -4,13 +4,22 @@
 #include <QImage>
 #include <QVector>
 
+struct Layer{
+    QImage m_LayerImage;
+    int m_width, m_height;
+
+    Layer(QImage image, int width, int heigth):
+        m_LayerImage (image),
+        m_width (width),
+        m_height (heigth) {}
+};
 
 class PyramidPicture
 {
 public:
     PyramidPicture(const QString& name);
 
-    QImage getLayer(int k, double coef = 2) const;
+    Layer getLayer(int k, double coef = 2) const;
 
     int getLayerCount(double coef = 2) const;
 
@@ -19,14 +28,14 @@ public:
         return m_diag;
     }
 
-    int getHeight()
-    {
-        return m_height;
-    }
-
     int getWidth()
     {
         return m_width;
+    }
+
+    int getHeight()
+    {
+        return m_height;
     }
 
 private:
@@ -40,7 +49,7 @@ private:
 
     QString m_name;
     QImage m_pic;
-    int m_height, m_width, m_diag;
+    int m_width, m_height, m_diag;
 };
 
 #endif // PYRAMIDPICTURE_H

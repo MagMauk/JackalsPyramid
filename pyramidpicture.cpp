@@ -10,32 +10,28 @@ PyramidPicture::PyramidPicture(const QString& name):
 
     m_pic = reader.read();
 
-    m_height = m_pic.height();
     m_width  = m_pic.width();
+    m_height = m_pic.height();
     m_diag = m_height*m_height + m_width*m_width;
 }
 
-QImage PyramidPicture::getLayer(int k, double coef) const
+Layer PyramidPicture::getLayer(int k, double coef) const
 {
-    if (k == 0)
-        return m_pic;
+    if (k <= 0)
+        return Layer(m_pic, m_width, m_height);
 
-    double actualCoef = 1;
+    double actualCoef = std::pow(coef, k);
 
-    for (int i = 0; i < k; i++)
-        actualCoef *= coef;
-
-
-    int height =  static_cast<int>( static_cast<double>(m_height) / actualCoef);
     int width =   static_cast<int>( static_cast<double>(m_width)  / actualCoef);
+    int height =  static_cast<int>( static_cast<double>(m_height) / actualCoef);
 
-    QImage output(width, height, m_pic.format());
+    QImage layerImage(width, height, m_pic.format());
 
     for(int x = 0; x < width; x++)
             for(int y = 0; y < height; y++)
-                output.setPixelColor(x, y, findColor(x, y, actualCoef));
+                layerImage.setPixelColor(x, y, findColor(x, y, actualCoef));
 
-    return output.scaled(m_width, m_height);
+    return Layer(layerImage.scaled(m_width, m_height), width, height);
 
 }
 
