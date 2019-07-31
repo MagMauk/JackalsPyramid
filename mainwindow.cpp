@@ -22,7 +22,7 @@ void MainWindow::loadFile()
         dialog.setNameFilter(tr("Images (*.png *.jpg)"));
         dialog.setViewMode(QFileDialog::Detail);
         QString filename = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                        "C:/Users/hp/Documents/Movavi/Test5/build",
+                                                        "C:/",
                                                         tr("Images (*.png *.jpg)"));
 
         addFile(filename);
@@ -76,7 +76,6 @@ void MainWindow::selectFile()
         QMessageBox::information(0, "Error", "File '" + ui->nameBox->currentText() + "' not loaded");
         return;
     }
-    QMessageBox::information(0, "Error", "SelectFile");
     updateLayersBox(m_pictures.find(ui->nameBox->currentText()).value());
 }
 

@@ -19,6 +19,7 @@ public:
     ~MainWindow();
 
 public slots:
+
     void loadFile();
 
     void printLayer();
@@ -27,9 +28,11 @@ public slots:
 
 private:
 
+    // add file to nameBox
     void addFile(const QString& filename);
-
+    // find layers count for current file and coef
     void updateLayersBox(const PyramidPicture& pic);
+
 
     Ui::MainWindow *ui;
     QLabel m_label;
