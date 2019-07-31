@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>859</width>
-    <height>686</height>
+    <width>684</width>
+    <height>655</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,6 +47,20 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="coefLabel">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Coeficent</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="NameLabel">
        <property name="font">
@@ -77,27 +91,15 @@
      </item>
      <item row="0" column="1">
       <widget class="QComboBox" name="nameBox">
-       <property name="currentText">
-        <string>0</string>
-       </property>
        <property name="currentIndex">
+        <number>-1</number>
+       </property>
+       <property name="maxVisibleItems">
+        <number>10</number>
+       </property>
+       <property name="modelColumn">
         <number>0</number>
        </property>
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item row="0" column="2">
@@ -114,26 +116,31 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="coefLabel">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="coefBox">
+       <property name="decimals">
+        <number>2</number>
        </property>
-       <property name="text">
-        <string>Coeficent</string>
+       <property name="minimum">
+        <double>1.100000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>2.000000000000000</double>
        </property>
       </widget>
      </item>
      <item row="0" column="3">
       <widget class="QComboBox" name="layerBox">
        <property name="currentText">
-        <string>0</string>
+        <string/>
        </property>
        <property name="currentIndex">
+        <number>-1</number>
+       </property>
+       <property name="modelColumn">
         <number>0</number>
        </property>
        <item>
@@ -153,19 +160,6 @@
        </item>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="CoefBox">
-       <property name="decimals">
-        <number>2</number>
-       </property>
-       <property name="minimum">
-        <double>1.100000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.100000000000000</double>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
   </widget>
@@ -174,7 +168,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>859</width>
+     <width>684</width>
      <height>21</height>
     </rect>
    </property>
@@ -220,8 +214,57 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>layerBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>printLayer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>554</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>646</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>coefBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>printLayer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>244</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>327</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>nameBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>printLayer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>244</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>327</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>mySlot()</slot>
+  <slot>printLayer()</slot>
  </slots>
 </ui>

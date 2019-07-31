@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->scrollArea->setWidget(&m_label);
+    ui->layerBox->insertItem(3, "3");
+    ui->nameBox->clear();
 }
 
 MainWindow::~MainWindow()
@@ -20,14 +23,60 @@ void MainWindow::mySlot()
     QFileDialog dialog(this);
         dialog.setNameFilter(tr("Images (*.png *.jpg)"));
         dialog.setViewMode(QFileDialog::Detail);
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+        QString filename = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                         "C:/Users/hp/Documents/Movavi/Test5/build",
                                                         tr("Images (*.png *.jpg)"));
 
-        PyramidPicture pic(fileName);
-        int k = ui->comboBox->currentIndex();
-        //ui->label->setPixmap(QPixmap::fromImage(pic.getLayer(k)));
-        //ui->label->setPixmap(QPixmap::fromImage(pic.getLayer(k)));
-        m_label.setPixmap(QPixmap::fromImage(pic.getLayer(k)));
+        addFile(filename);
+}
 
+void MainWindow::addFile(const QString& filename)
+{
+    if (m_pictures.count(filename)) {
+        QMessageBox::information(0, "Error", "File '" + filename + "' is already loaded");
+        return;
+    }
+
+    PyramidPicture pic(filename);
+    int diag = pic.getDiagonal();
+    // put new file name to ui->nameBox
+    int i = 0;
+    int n = ui->nameBox->count();
+
+    for (; i < n; i++) {
+        QString anotherFilename = ui->nameBox->itemText(i);
+        if (diag < m_pictures.find(anotherFilename).value().getDiagonal())
+            break;
+    }
+    m_pictures.insert(filename, pic);
+    ui->nameBox->insertItem(i, filename);
+}
+
+void MainWindow::printLayer()
+{
+    if (!ui->nameBox->count())
+        return;
+    if (!m_pictures.count(ui->nameBox->currentText())) {
+        QMessageBox::information(0, "Error", "File '" + ui->nameBox->currentText() + "' not loaded");
+        return;
+    }
+
+    PyramidPicture& pic = m_pictures.find(ui->nameBox->currentText()).value();
+    int layerNumber = ui->layerBox->currentIndex();
+    double coef = ui->coefBox->value();
+
+    Layer layer = pic.getLayer(layerNumber, coef);
+
+    m_label.setPixmap(QPixmap::fromImage(layer.m_LayerImage));
+    ui->sizelabel->setText("Size: " + QString::number(layer.m_width) + "x" + QString::number(layer.m_height));
+
+    updateLayersBox(pic);
+}
+
+void MainWindow::updateLayersBox(const PyramidPicture& pic)
+{
+    int countLayers = pic.getLayerCount(ui->coefBox->value());
+    ui->layerBox->clear();
+    for(int i = 0; i < countLayers; i++)
+       ui->layerBox->insertItem(i, QString::number(i));
 }
