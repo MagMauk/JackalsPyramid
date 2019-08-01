@@ -22,6 +22,7 @@ public slots:
 
     void loadFile();
 
+    // print actual layer of actual pictures to m_label
     void printLayer();
 
     void selectFile();
@@ -36,7 +37,6 @@ private:
 
     Ui::MainWindow *ui;
     QLabel m_label;
-    // QHash haven't the analog of method std::unordered_map::at
     QHash<QString, PyramidPicture> m_pictures;
 };
 

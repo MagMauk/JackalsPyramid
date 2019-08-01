@@ -19,8 +19,10 @@ class PyramidPicture
 public:
     PyramidPicture(const QString& name);
 
+    // method return the k layer of m_pic with coefficent coef
     Layer getLayer(int k, double coef = 2) const;
 
+    // method return the size pyramid of m_pic with coefficent coef
     int getLayerCount(double coef = 2) const;
 
     int getDiagonal() const
