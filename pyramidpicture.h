@@ -41,13 +41,9 @@ public:
     }
 
 private:
-    QColor findColor(int i, int x, int y) const;
 
+    // return color of Layer pixel (x,y)
     QColor findColor(int x, int y, double coef) const;
-
-    void makePyramideStep();
-
-private:
 
     QString m_name;
     QImage m_pic;
