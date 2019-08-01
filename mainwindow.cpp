@@ -30,7 +30,8 @@ void MainWindow::loadFile()
 
 void MainWindow::addFile(const QString& filename)
 {
-    if (m_pictures.count(filename)) {
+    if (m_pictures.count(filename))
+    {
         QMessageBox::information(0, "Error", "File '" + filename + "' is already loaded");
         return;
     }
@@ -41,7 +42,8 @@ void MainWindow::addFile(const QString& filename)
     int i = 0;
     int n = ui->nameBox->count();
 
-    for (; i < n; i++) {
+    for (; i < n; i++)
+    {
         QString anotherFilename = ui->nameBox->itemText(i);
         if (diag < m_pictures.find(anotherFilename).value().getDiagonal())
             break;
@@ -55,7 +57,8 @@ void MainWindow::printLayer()
 {
     if (!ui->nameBox->count())
         return;
-    if (!m_pictures.count(ui->nameBox->currentText())) {
+    if (!m_pictures.count(ui->nameBox->currentText()))
+    {
         QMessageBox::information(0, "Error", "File '" + ui->nameBox->currentText() + "' not loaded");
         return;
     }
@@ -72,7 +75,8 @@ void MainWindow::printLayer()
 
 void MainWindow::selectFile()
 {
-    if (!m_pictures.count(ui->nameBox->currentText())) {
+    if (!m_pictures.count(ui->nameBox->currentText()))
+    {
         QMessageBox::information(0, "Error", "File '" + ui->nameBox->currentText() + "' not loaded");
         return;
     }

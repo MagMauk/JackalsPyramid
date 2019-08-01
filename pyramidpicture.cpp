@@ -58,8 +58,10 @@ QColor PyramidPicture::findColor(int x, int y, double coef) const
 
     int count = (xEnd - xStart) * (yEnd - yStart);
 
-    for (int i = xStart; i < xEnd; i++) {
-        for (int j = yStart; j < yEnd; j++) {
+    for (int i = xStart; i < xEnd; i++)
+    {
+        for (int j = yStart; j < yEnd; j++)
+        {
             QColor color = m_pic.pixelColor(i, j);
             r += color.red();
             g += color.green();
